@@ -1,1 +1,1 @@
-Real time TTS with Speaker diarization.
+Real time ASR with Speaker diarization.
