@@ -1,0 +1,5 @@
+[project]
+name = "TTS-diarization"
+description = "Real time TTS with Speaker diarization"
+readme = "README.md"
+authors = [{name = "Jonathan Hsu", email = "jonathanhsu8924@gmail.com"}]
