@@ -4,7 +4,7 @@ import shutil
 import wget
 from pathlib import Path
 
-config_yaml_path = 'dataset.yaml'
+config_yaml_path = Path(__file__).resolve().parent / 'dataset.yaml'
 supported_task = ['ASR', 'Diarization']
 
 def download_dataset(task, output_path):
@@ -13,10 +13,11 @@ def download_dataset(task, output_path):
         config = yaml.safe_load(f)
         dataset_dict = config[task]
         Dataset_url = dataset_dict['Dataset_url']
-        filename = wget.download(Dataset_url, out=output_path)
+        filename = wget.download(Dataset_url, out=str(output_path))
         shutil.unpack_archive(filename, extract_dir=output_path)
 
 def preprocess_dataset(task, output_path):
+    output_path.mkdir(parents=True, exist_ok=True)
     download_dataset(task, output_path)
 
     if task == 'ASR':
@@ -38,14 +39,14 @@ def preprocess_dataset(task, output_path):
         for other_file in other_files:
             shutil.move(str(other_file), str(ASR_dir_path / other_file.name))
 
-        shutil.rmtree("LibriSpeech")
+        shutil.rmtree(output_path / "LibriSpeech")
 
     elif task == 'Diarization':
-        return
+        pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', default='ASR')
-    parser.add_argument('--output_path', default='./')
+    parser.add_argument('--output_path', default='data')
     args = parser.parse_args()
-    preprocess_dataset(args.task, args.output_path)
+    preprocess_dataset(args.task, Path(args.output_path))
