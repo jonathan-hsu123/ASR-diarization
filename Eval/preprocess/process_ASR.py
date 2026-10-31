@@ -5,7 +5,7 @@ from pathlib import Path
 
 dataset_url = "https://openslr.trmal.net/resources/12/test-clean.tar.gz"
 
-def preprocess_dataset(output_path):
+def preprocess_librispeech(output_path):
     output_path.mkdir(parents=True, exist_ok=True)
     filename = wget.download(dataset_url, out=str(output_path))
     shutil.unpack_archive(filename, extract_dir=output_path)
@@ -34,4 +34,4 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--output_path', default='data')
     args = parser.parse_args()
-    preprocess_dataset(Path(args.output_path))
+    preprocess_librispeech(Path(args.output_path))
